@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/static/style.css?foo={{ range(1, 100000) | random }}" type="text/css"/>
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div> {# class="container" #}
+            {% for category, message in messages %}
+                <div class="alert {{ category }} alert-dismissible"
+                     role="alert">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div id="content">
+    <h2 style="text-align: center; font-size: 36px">{{ heading }}</h2>
+    {% block content %}{% endblock %}
+</div>
+
+<footer>
+    <strong>University of Vermont</strong><br />CS166 - Cybersecurity Principles
+
+</footer>
+</body>
+</html>
