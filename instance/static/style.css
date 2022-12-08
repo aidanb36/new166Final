@@ -7,10 +7,6 @@ body {
     min-height: 100vh;
 }
 
-footer {
-    margin-top: auto;
-}
-
 a:link, a:visited {
   background-color: #f44336;
   color: darkkhaki;

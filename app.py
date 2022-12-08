@@ -53,25 +53,24 @@ def login_success(access_level):
     flash("Welcome! You have logged in!", 'alert-success')
     if access_level == 1:
         return render_template('customer1.html',
-                               title="Customer Home",
-                               heading="Customer Home")
+                               title="Home",
+                               heading="Home")
     elif access_level == 2:
         return render_template('customer2.html',
-                               title="Customer Home",
-                               heading="Customer Home")
+                               title="Home",
+                               heading="Home")
     elif access_level == 3:
         return render_template('customer3.html',
-                               title="Customer Home",
-                               heading="Customer Home")
+                               title="Home",
+                               heading="Home")
     else:
         return render_template('customer1.html',
-                               title="Customer Home",
-                               heading="Customer Home")
+                               title="Home",
+                               heading="Home")
 
 @app.route("/new-user", methods=['GET', 'POST'])
 def new_user():
     if request.method == 'POST':
-        # User-entered values
         username = request.form.get('username')
         password = request.form.get('password')
 

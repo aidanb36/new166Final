@@ -12,17 +12,16 @@ SALT_LENGTH = 40
 DEBUG = True
 
 
-def generate_secure(length=MAX_PASSWORD_LENGTH):
+def passw(length=MAX_PASSWORD_LENGTH):
     """ "strong password generator" feature """
     secure = ""
     while len(secure) < length:
-        character = choice("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890<>?=+-!@#$%^&*")
+        character = choice("agjaejaeaeqlwpigyaervznxmASFJQWOFIEHQBEL1234567890<>?=+-!@#$%^&*")
         secure += character
     return secure
 
 
-def validate(password):
-    """ password validation """
+def val(password):
     valid = False
     upper = False
     lower = False
@@ -41,7 +40,6 @@ def validate(password):
                 spec = True
 
             if upper and lower and spec and num and len(password) >= MIN_PASSWORD_LENGTH and len(password) <= MAX_PASSWORD_LENGTH:
-                # Stop this early if everything has been satisfied
                 valid = True
 
     return valid
@@ -69,16 +67,15 @@ def add_user(name="", password="", access_level=1):
             choose_default = input("Enter 1 to choose your own password or 0 to use the default generator")
 
             if choose_default == "0":
-                password = generate_secure()
+                password = passw()
 
-    valid = validate(password)
+    valid = val(password)
     while not valid:
         if password == "":
-            password = input("Choose a password. It must have an upper-case letter, lower-case letter, special "
-                             "character, and a number. Minimum password length = 8, max length = 25: ")
+            password = input("Create password with upper-case letter, lower-case letter, special "
+                             "character, and a number. Minimum password length = 7, max length = 22: ")
 
-        # validate the password
-        valid = validate(password)
+        valid = val(password)
 
         if not valid:
             if len(password) < MIN_PASSWORD_LENGTH:
@@ -112,11 +109,8 @@ def add_user(name="", password="", access_level=1):
         if conn is not None:
             conn.close()
 
-
-def sign_in(users, username="", password=""):
+def sign_in(users, username = "", password = ""):
     verified = False
-
-
     for user in users:
         # Determine if this user is in the users file
         if username == user[0]:
@@ -131,7 +125,6 @@ def sign_in(users, username="", password=""):
 
     return verified
 
-
 def show_menu():
     """ Simply show the menu """
     print("1: Accounting")
@@ -141,7 +134,6 @@ def show_menu():
     print("5: Log out")
     choice = input("Input the number of the option you want to see: ")
     return choice
-
 
 def create_db():
     """ Create table 'users' in 'user' database """
@@ -165,7 +157,6 @@ def create_db():
         if conn is not None:
             conn.close()
 
-
 def query_db():
     """ Display all records in the users table """
     users = []
@@ -182,7 +173,6 @@ def query_db():
         if conn is not None:
             conn.close()
         return users
-
 
 def hash_pw(plain_text, salt='') -> str:
     if salt == '':
