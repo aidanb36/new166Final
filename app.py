@@ -1,11 +1,7 @@
 from helpers import *
-# from config import display
 from flask import Flask, render_template, request, url_for, flash, redirect
-
 app = Flask(__name__, static_folder='instance/static')
-
 app.config.from_object('config')
-
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -14,7 +10,6 @@ def home():
                            title="Home Page",
                            heading="Home Page"
                            )
-
 
 @app.route("/login/<int:attempts>", methods=['GET', 'POST'])
 def login(attempts):
@@ -53,29 +48,25 @@ def login(attempts):
                            title="Secure Login",
                            heading="Secure Login")
 
-
 @app.route("/login_success/<int:access_level>", methods=['GET', 'POST'])
 def login_success(access_level):
     flash("Welcome! You have logged in!", 'alert-success')
-    # Different home pages for people with different access levels
     if access_level == 1:
-        return render_template('customer_home_1.html',
+        return render_template('customer1.html',
                                title="Customer Home",
                                heading="Customer Home")
     elif access_level == 2:
-        return render_template('customer_home_2.html',
+        return render_template('customer2.html',
                                title="Customer Home",
                                heading="Customer Home")
     elif access_level == 3:
-        return render_template('customer_home_3.html',
+        return render_template('customer3.html',
                                title="Customer Home",
                                heading="Customer Home")
     else:
-        # Give the lowest access level if somehow they have invalid access level
-        return render_template('customer_home_1.html',
+        return render_template('customer1.html',
                                title="Customer Home",
                                heading="Customer Home")
-
 
 @app.route("/new-user", methods=['GET', 'POST'])
 def new_user():
@@ -96,7 +87,7 @@ def new_user():
         except KeyError:
             pass
 
-    return render_template('new_user.html',
+    return render_template('user.html',
                            title="Register New User",
                            heading="Register New User")
 

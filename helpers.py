@@ -86,14 +86,7 @@ def add_user(name="", password="", access_level=1):
             elif len(password) > MAX_PASSWORD_LENGTH:
                 print("Password is too long! Go easy on yourself!\n")
 
-            # Comment out the below line if adding admin override
             password = ""
-
-            # Uncomment this for admin override
-            # # Adding a bit of code to override insecure password, just for setup reasons
-            # override = input("Input admin password to override insecure password: ")
-            # if override == "admin":
-            #     valid = True
 
     if DEBUG:
         print("\n\nAdding", name + "...")
