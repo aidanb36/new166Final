@@ -1,6 +1,6 @@
 #Run this at first!!!!
 
-from helpers import create_db, add_user
+from app import create_db, add_user
 
 create_db()
 
