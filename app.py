@@ -49,17 +49,17 @@ def login(attempts):
                                        title="Secure Login",
                                        heading="Secure Login",
                                        attempts=attempts)
-            elif not sign_in(stored_data, username, password):
+            elif not sign(stored_data, username, password):
                 flash("Invalid name or password", 'alert-danger')
                 print(attempts)
                 return redirect(url_for('login', attempts=attempts))
 
-            elif sign_in(stored_data, username, password):
+            elif sign(stored_data, username, password):
                 print("Logged in!")
                 for user in stored_data:
                     if user[0] == username:
                         access_level = user[2]
-                return redirect(url_for('login_success', access_level=access_level))
+                return redirect(url_for('success', access_level=access_level))
 
         except KeyError:
             pass
@@ -69,8 +69,8 @@ def login(attempts):
                            heading="Secure Login")
 
 #successful login
-@app.route("/login_success/<int:access_level>", methods=['GET', 'POST'])
-def login_success(access_level):
+@app.route("/success/<int:access_level>", methods=['GET', 'POST'])
+def success(access_level):
     flash("Welcome! You have logged in!", 'alert-success')
     if access_level == 1:
         return render_template('customer1.html',
@@ -103,14 +103,13 @@ def new_user():
                 flash("A user with that username is already registered! Try again!", 'alert-danger')
             else:
                 flash("Success!", 'alert-success')
-                return redirect(url_for('login_success', access_level=1))
+                return redirect(url_for('success', access_level=1))
 
         except KeyError:
             pass
 
     return render_template('user.html',
-                           title="Register New User",
-                           heading="Register New User")
+                           heading="Register User")
 
 
 #valid password?
@@ -139,18 +138,15 @@ def val(password):
 
 #add new user
 def add_user(name="", password="", access_level=1):
-    """ Function to add a user to the CSV file """
-    # Make a list of usernames to compare against
     usernames = []
-    users = []
     users = query_db()
     for user in users:
         usernames.append(user[0])
 
     while name == "" or name in usernames:
-        name = input("Choose a username: ")
+        name = input("Choose username: ")
         if name in usernames:
-            print("Sorry! That name is taken. Choose a different one!")
+            print("Username taken")
 
     usernames.append(name)
 
@@ -172,15 +168,14 @@ def add_user(name="", password="", access_level=1):
 
         if not valid:
             if len(password) < MIN_PASSWORD_LENGTH:
-                print("Password is too short\n")
+                print("too short\n")
             elif len(password) > MAX_PASSWORD_LENGTH:
-                print("Password is too long\n")
+                print("too long\n")
 
             password = ""
 
     if DEBUG:
         print("\n\nAdding", name + "...")
-        print("----------------------------------------------------")
     hashed_password = hash_pw(password)
 
     new_user = [(name, hashed_password, access_level)]
@@ -202,7 +197,7 @@ def add_user(name="", password="", access_level=1):
             conn.close()
 
 #sign in existing user
-def sign_in(users, username = "", password = ""):
+def sign(users, username = "", password = ""):
     verified = False
     for user in users:
         # figure out if user exists (salt)
